@@ -92,6 +92,9 @@
       window.particleSystem = new THREE.ParticleSystem(particles, pMaterial);
       particleSystem.sortParticles = true;
       scene.add(particleSystem);
+      var starsPositionX = 0;
+      var starsPositionY = 0;
+      var starsPositionZ = 0;
 
       //clouds object
       window.clouds = new THREE.Mesh(
@@ -194,8 +197,12 @@
               cloudPositionY--;
               earthPositionX--;
               earthPositionY--;
-              clouds.position.set( cloudPositionX, cloudPositionY, 0 )
+              starsPositionX--;
+              starsPositionY--;
+
+              clouds.position.set( cloudPositionX, cloudPositionY, 0 );
               earth.position.set(earthPositionX, earthPositionY, 0);
+              particleSystem.position.set(starsPositionX, starsPositionY, 0);
             }
             else if (hand.palmNormal[0] > 0.5){
               console.log("go left");
@@ -203,8 +210,12 @@
               cloudPositionY++;
               earthPositionX++;
               earthPositionY++;
-              clouds.position.set( cloudPositionX, cloudPositionY, 0 )
+              starsPositionX++;
+              starsPositionY++;
+
+              clouds.position.set( cloudPositionX, cloudPositionY, 0 );
               earth.position.set(earthPositionX, earthPositionY, 0);
+              particleSystem.position.set(starsPositionX, starsPositionY, 0);
             }
             console.log(hand.palmNormal[0]);
 
