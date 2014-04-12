@@ -178,48 +178,40 @@
             camera.position.y --
             for (var i = 0; i< frame.hands.length; i++){
               var hand = frame.hands[i];
+              if (hand.palmNormal[0] >= 0 && hand.palmNormal[0] <= 0.30){
+                console.log("go straight");
+              }
+              else if (hand.palmNormal[0] < 0){
+                console.log("go right");
+                cloudPositionX--;
+                cloudPositionY--;
+                earthPositionX--;
+                earthPositionY--;
+                starsPositionX--;
+                starsPositionY--;
+
+                clouds.position.set( cloudPositionX, cloudPositionY, 0 );
+                earth.position.set(earthPositionX, earthPositionY, 0);
+                particleSystem.position.set(starsPositionX, starsPositionY, 0);
+              }
+              else if (hand.palmNormal[0] > 0.5){
+                console.log("go left");
+                cloudPositionX++;
+                cloudPositionY++;
+                earthPositionX++;
+                earthPositionY++;
+                starsPositionX++;
+                starsPositionY++;
+
+                clouds.position.set( cloudPositionX, cloudPositionY, 0 );
+                earth.position.set(earthPositionX, earthPositionY, 0);
+                particleSystem.position.set(starsPositionX, starsPositionY, 0);
+              }
               console.log(hand.palmNormal[0]);
-
-
-
-              
             }
           }
 
-          for (var i = 0; i< frame.hands.length; i++){
-            var hand = frame.hands[i];
-            if (hand.palmNormal[0] >= 0 && hand.palmNormal[0] <= 0.30){
-              console.log("go straight");
-            }
-            else if (hand.palmNormal[0] < 0){
-              console.log("go right");
-              cloudPositionX--;
-              cloudPositionY--;
-              earthPositionX--;
-              earthPositionY--;
-              starsPositionX--;
-              starsPositionY--;
-
-              clouds.position.set( cloudPositionX, cloudPositionY, 0 );
-              earth.position.set(earthPositionX, earthPositionY, 0);
-              particleSystem.position.set(starsPositionX, starsPositionY, 0);
-            }
-            else if (hand.palmNormal[0] > 0.5){
-              console.log("go left");
-              cloudPositionX++;
-              cloudPositionY++;
-              earthPositionX++;
-              earthPositionY++;
-              starsPositionX++;
-              starsPositionY++;
-
-              clouds.position.set( cloudPositionX, cloudPositionY, 0 );
-              earth.position.set(earthPositionX, earthPositionY, 0);
-              particleSystem.position.set(starsPositionX, starsPositionY, 0);
-            }
-            console.log(hand.palmNormal[0]);
-
-          }
+          
 
           //rotate cloud and earth independently
           clouds.rotation.y+=.002
