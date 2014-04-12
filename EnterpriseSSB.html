@@ -159,6 +159,14 @@
             }
           }
 
+          //checking to see if any hand gestures were activated
+          if (frame.hands.length > 0 && jetPacksActivated === "YES"){
+            for (var i = 0; i< frame.hands.length; i++){
+              camera.position.z --
+              camera.position.y --
+            }
+          }
+
           //rotate cloud and earth independently
           clouds.rotation.y+=.002
           earth.rotation.y+=.001
@@ -183,7 +191,6 @@
             camera.position.z ++
             camera.position.y ++
           }
-          
           // camera.position.y = earth.position.z + cameraRadius * Math.cos(rotateY * Math.PI/180)
           // camera.fov = fov * zoomFactor;
         }
