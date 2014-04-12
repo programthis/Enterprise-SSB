@@ -105,7 +105,11 @@
           blendEquation: THREE.AddEquation
         })
       )
-      clouds.position.set( 0, 0, 0 )
+      var cloudPositionX = 0;
+      var cloudPositionY = 0;
+      var cloudPositionZ = 0;
+
+      clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ )
       clouds.receiveShadow = true
       clouds.castShadow = true
       scene.add( clouds )
@@ -117,6 +121,10 @@
       var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/109794/earthSatTexture.jpg' ), ambient: 0x050505, color: 0xFFFFFF, specular: 0x555555, bumpMap: earthBumpImage, bumpScale: 19, metal: true } );
       window.earth = new THREE.Mesh( geometry, material );
       scene.add(earth);
+
+      var earthPositionX = 0;
+      var earthPositionY = 0;
+      var earthPositionZ = 0;
 
 
       //add camera
@@ -169,6 +177,9 @@
               var hand = frame.hands[i];
               console.log(hand.palmNormal[0]);
 
+
+
+              
             }
           }
 
@@ -179,9 +190,21 @@
             }
             else if (hand.palmNormal[0] < 0){
               console.log("go right");
+              cloudPositionX--;
+              cloudPositionY--;
+              earthPositionX--;
+              earthPositionY--;
+              clouds.position.set( cloudPositionX, cloudPositionY, 0 )
+              earth.position.set(earthPositionX, earthPositionY, 0);
             }
-            else{
+            else if (hand.palmNormal[0] > 0.5){
               console.log("go left");
+              cloudPositionX++;
+              cloudPositionY++;
+              earthPositionX++;
+              earthPositionY++;
+              clouds.position.set( cloudPositionX, cloudPositionY, 0 )
+              earth.position.set(earthPositionX, earthPositionY, 0);
             }
             console.log(hand.palmNormal[0]);
 
@@ -190,6 +213,7 @@
           //rotate cloud and earth independently
           clouds.rotation.y+=.002
           earth.rotation.y+=.001
+          console.log(earth);
 
           if (!firstValidFrame) firstValidFrame = frame
           var t = firstValidFrame.translation(frame)
@@ -205,7 +229,8 @@
           zoomFactor = 1/(1 + (zoom / 150));
 
           //adjust 3D spherical coordinates of the camera
-          camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
+          // camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
+          console.log(camera.position);
           // camera.position.z = earth.position.y + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.sin(rotateX * Math.PI/180)
           if (jetPacksActivated === "NO"){
             camera.position.z ++
