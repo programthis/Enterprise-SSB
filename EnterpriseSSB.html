@@ -21,9 +21,17 @@
     </style>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r54/three.js"></script>
     <script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 
   </head>
   <body>
+    <div id = "hub">
+      
+    </div>
+    <div id = "jets">Jet Packs: NO</div>
+    <div id = "direction">Direction: DRIFTING AWAY</div>
+    <div id = "palm_direction">Palm Direction: NONE</div>
+
     <script>
         //map function to be used to map values from leap into proper degrees (0-360)
         function map(value, inputMin, inputMax, outputMin, outputMax){
@@ -140,7 +148,6 @@
       window.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
       camera.lookAt( scene.position )
       camera.position.set( 0, 0, 290 )
-      console.log(camera);
 
       //initiate variables
       var firstValidFrame = null
@@ -163,6 +170,7 @@
               var gesture = frame.gestures[i];
               if (gesture.type == "swipe"){
                 jetPacksActivated = "YES";
+                $("#jets").text("Jet Packs: ACTIVATED!");
                 console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
                 console.log(frame.gestures);
               }
@@ -172,7 +180,6 @@
           //checking to see if any hand gestures were activated
           var handsActivated = 0;
           handsActivated = frame.hands.length;
-          console.log(frame.hands.length);
           if (frame.hands.length > 0 && jetPacksActivated === "YES"){
             camera.position.z --
             camera.position.y --
@@ -193,6 +200,7 @@
                 earthPositionZ--;
                 starsPositionZ--;
 
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
@@ -206,6 +214,7 @@
                 starsPositionX--;
                 starsPositionY--;
 
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ);
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
@@ -222,6 +231,7 @@
                 earthPositionZ++;
                 starsPositionZ++;
 
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
@@ -235,11 +245,11 @@
                 starsPositionX++;
                 starsPositionY++;
 
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
               }
-              console.log(hand.palmNormal[0]);
             }
           }
 
@@ -248,7 +258,6 @@
           //rotate cloud and earth independently
           clouds.rotation.y+=.002
           earth.rotation.y+=.001
-          console.log(earth);
 
           if (!firstValidFrame) firstValidFrame = frame
           var t = firstValidFrame.translation(frame)
@@ -265,7 +274,6 @@
 
           //adjust 3D spherical coordinates of the camera
           // camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
-          console.log(camera.position);
           // camera.position.z = earth.position.y + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.sin(rotateX * Math.PI/180)
           if (jetPacksActivated === "NO"){
             camera.position.z ++
