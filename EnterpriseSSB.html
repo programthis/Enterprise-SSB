@@ -144,7 +144,6 @@
       Leap.loop(function(frame) {
         if (frame.valid) {
 
-
           //getting the jets to activate when the user does a specific gesture
           var gestureOutput = document.getElementById("gestureData");
 
@@ -160,11 +159,32 @@
           }
 
           //checking to see if any hand gestures were activated
+          var handsActivated = 0;
+          handsActivated = frame.hands.length;
+          console.log(frame.hands.length);
           if (frame.hands.length > 0 && jetPacksActivated === "YES"){
+            camera.position.z --
+            camera.position.y --
             for (var i = 0; i< frame.hands.length; i++){
-              camera.position.z --
-              camera.position.y --
+              var hand = frame.hands[i];
+              console.log(hand.palmNormal[0]);
+
             }
+          }
+
+          for (var i = 0; i< frame.hands.length; i++){
+            var hand = frame.hands[i];
+            if (hand.palmNormal[0] >= 0 && hand.palmNormal[0] <= 0.30){
+              console.log("go straight");
+            }
+            else if (hand.palmNormal[0] < 0){
+              console.log("go right");
+            }
+            else{
+              console.log("go left");
+            }
+            console.log(hand.palmNormal[0]);
+
           }
 
           //rotate cloud and earth independently
@@ -185,7 +205,7 @@
           zoomFactor = 1/(1 + (zoom / 150));
 
           //adjust 3D spherical coordinates of the camera
-          // camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
+          camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
           // camera.position.z = earth.position.y + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.sin(rotateX * Math.PI/180)
           if (jetPacksActivated === "NO"){
             camera.position.z ++
