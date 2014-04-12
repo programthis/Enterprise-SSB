@@ -29,8 +29,9 @@
       
     </div>
     <div id = "jets">Jet Packs: NO</div>
-    <div id = "direction">Direction: DRIFTING AWAY</div>
+    <div id = "jet_direction">Direction: Towards Earth</div>
     <div id = "palm_direction">Palm Direction: NONE</div>
+    <div id = "reverse_jetpacks"></div>
 
     <script>
         //map function to be used to map values from leap into proper degrees (0-360)
@@ -157,7 +158,8 @@
 
 
       var jetPacksActivated = "NO";
-      
+      var reverseJets = "NO";
+
       //request animation frame and connect to leap socket
       Leap.loop(function(frame) {
         if (frame.valid) {
@@ -168,11 +170,20 @@
           if (frame.gestures.length > 0){
             for (var i = 0; i < frame.gestures.length; i++){
               var gesture = frame.gestures[i];
-              if (gesture.type == "swipe"){
+              if (gesture.type === "swipe" && reverseJets === "NO" && jetPacksActivated === "YES"){
+                reverseJets = "YES";
+                $("#jet_direction").text("Direction: Away From Earth");
+                $("#reverse_jetpacks").text("Your jetpacks are reversed!");
+              }
+              else if (gesture.type === "swipe" && reverseJets === "YES" && jetPacksActivated === "YES"){
+                reverseJets = "NO";
+                $("#jet_direction").text("Direction: Towards Earth");
+                $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
+              }
+              if (gesture.type === "swipe"){
                 jetPacksActivated = "YES";
                 $("#jets").text("Jet Packs: ACTIVATED!");
                 console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
-                console.log(frame.gestures);
               }
             }
           }
@@ -181,14 +192,21 @@
           var handsActivated = 0;
           handsActivated = frame.hands.length;
           if (frame.hands.length > 0 && jetPacksActivated === "YES"){
-            camera.position.z --
-            camera.position.y --
+            if (reverseJets === "NO"){
+              camera.position.z --
+              camera.position.y --
+            }
+            else{
+              camera.position.z ++
+              camera.position.y ++
+            }
+            
             for (var i = 0; i< frame.hands.length; i++){
               var hand = frame.hands[i];
               if (hand.palmNormal[0] >= -0.5 && hand.palmNormal[0] <= 0.50){
                 console.log("go straight");
               }
-              else if (hand.palmNormal[0] < -0.5 && hand.palmNormal[0] >= -0.8){
+              else if (hand.palmNormal[0] < -0.5 && hand.palmNormal[0] >= -0.7){
                 console.log("go right and up");
                 cloudPositionX--;
                 cloudPositionY--;
@@ -200,12 +218,12 @@
                 earthPositionZ--;
                 starsPositionZ--;
 
-                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling right and up!");
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
               }
-              else if (hand.palmNormal[0] < -0.8){
+              else if (hand.palmNormal[0] < -0.7){
                 console.log("go right");
                 cloudPositionX--;
                 cloudPositionY--;
@@ -214,12 +232,12 @@
                 starsPositionX--;
                 starsPositionY--;
 
-                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling right!");
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ);
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
               }
-              else if (hand.palmNormal[0] >= 0.5 && hand.palmNormal[0] <= 0.8){
+              else if (hand.palmNormal[0] >= 0.5 && hand.palmNormal[0] <= 0.7){
                 console.log("go left and up");
                 cloudPositionX++;
                 cloudPositionY++;
@@ -231,12 +249,12 @@
                 earthPositionZ++;
                 starsPositionZ++;
 
-                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling left and up!");
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
               }
-              else if (hand.palmNormal[0] > 0.8){
+              else if (hand.palmNormal[0] > 0.7){
                 console.log("go left");
                 cloudPositionX++;
                 cloudPositionY++;
@@ -245,7 +263,7 @@
                 starsPositionX++;
                 starsPositionY++;
 
-                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0]);
+                $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling left!");
                 clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
                 earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
                 particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
@@ -264,7 +282,7 @@
 
           //limit y-axis between 0 and 180 degrees
           curY = map(t[1], -300, 300, 0, 179)
-          
+          console.log("t[1]" +t[1]);
           //assign rotation coordinates
           rotateX = t[0]
           rotateY = -curY
