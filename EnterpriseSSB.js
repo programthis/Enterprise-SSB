@@ -103,7 +103,6 @@ $(document).ready(function(){
 	var earthPositionY = 0;
 	var earthPositionZ = 0;
 
-
 	//add camera
 	WIDTH      = window.innerWidth,
 	HEIGHT     = window.innerHeight,
@@ -256,7 +255,7 @@ $(document).ready(function(){
 
 	    //limit y-axis between 0 and 180 degrees
 	    curY = map(t[1], -300, 300, 0, 179)
-	    console.log("t[1]" +t[1]);
+
 	    //assign rotation coordinates
 	    rotateX = t[0]
 	    rotateY = -curY
@@ -271,6 +270,7 @@ $(document).ready(function(){
 	      camera.position.z ++
 	      camera.position.y ++
 	    }
+	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.2, 2));
 	    // camera.position.y = earth.position.z + cameraRadius * Math.cos(rotateY * Math.PI/180)
 	    // camera.fov = fov * zoomFactor;
 	  }
@@ -279,6 +279,11 @@ $(document).ready(function(){
 	  camera.lookAt(scene.position)
 	  renderer.render(scene, camera)
 	});
+
+	//function for rounding
+	function trueRound(value, digits){
+    	return (Math.round((value*Math.pow(10,digits)).toFixed(digits-1))/Math.pow(10,digits)).toFixed(digits);
+	}
 
 	//window resize method
 	window.addEventListener( 'resize', onWindowResize, false );

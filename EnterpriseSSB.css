@@ -3,7 +3,7 @@
 	position: absolute;
 	background: rgba(181,181,181, 0.3);
 	width:500px;
-	height:100px;
+	height:128px;
 	border: solid 2px black;
 	color: #CFCFCF;
 }
@@ -13,7 +13,6 @@
 
 #hub div{
 	margin-left:10px;
-	/*font-weight: bold;*/
 	font-size: 20px;
 
 }
