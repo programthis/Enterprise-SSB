@@ -1,4 +1,18 @@
 $(document).ready(function(){
+
+	//kiwi initialization variables
+	// detection variables
+	var kiwisocket = io.connect('http://build.kiwiwearables.com:8080');
+
+	var toParse = null;
+	var Ax = 0;
+	var Ay = 0;
+	var Az = 0;
+	var Gx = 0;
+	var Gy = 0;
+	var Gz = 0;
+
+
 	//map function to be used to map values from leap into proper degrees (0-360)
 	function map(value, inputMin, inputMax, outputMin, outputMax){
 	  outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
@@ -125,78 +139,127 @@ $(document).ready(function(){
 	var reverseJets = "NO";
 	var initialJetPacks = "NO";
 	var canSwitchJets = "YES";
+	var isParked = "NO";
+
+	//creating jet initiating button
+	$("#jet_button").click(function(){
+		if (reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+			reverseJets = "YES";
+			canSwitchJets = "NO";
+
+			$("#jet_direction").text("Direction: Away From Earth");
+			$("#reverse_jetpacks").text("Your jetpacks are reversed!");
+			$(".button-caution").css("background", "yellow");
+			$(".button-caution").css("border-color", "#A69212");
+			$("#direction_label").text("REVERSE");
+			
+			setTimeout(function(){
+			  canSwitchJets = "YES";
+			},3000);
+		}
+		else if (reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+			reverseJets = "NO";
+			canSwitchJets = "NO";
+
+			$("#jet_direction").text("Direction: Towards Earth");
+			$("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
+			$(".button-caution").css("background", "green");
+			$(".button-caution").css("border-color", "#1B5207");
+			$("#direction_label").text("FORWARD");
+
+			setTimeout(function(){
+			  canSwitchJets = "YES";
+			},3000);
+		}
+
+		if (initialJetPacks === "NO"){
+			jetPacksActivated = "YES";
+
+			$("#jets").text("Jet Packs: ACTIVATED!");
+			$("#direction_label").text("FORWARD");
+			$(".button-caution").css("background", "green");
+			$(".button-caution").css("border-color", "#1B5207");
+
+			console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
+			setTimeout(function(){
+			  initialJetPacks = "YES";
+			},3000);
+		}
+	});
 
 	//request animation frame and connect to leap socket
 	Leap.loop(function(frame) {
 	  if (frame.valid) {
 
 	    //getting the jets to activate when the user does a specific gesture
-	    var gestureOutput = document.getElementById("gestureData");
+	    // var gestureOutput = document.getElementById("gestureData");
 
-	    if (frame.gestures.length > 0){
-	      for (var i = 0; i < frame.gestures.length; i++){
-	        var gesture = frame.gestures[i];
-	        if (gesture.type === "circle" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
-	          reverseJets = "YES";
-	          canSwitchJets = "NO";
-	          $("#jet_direction").text("Direction: Away From Earth");
-	          $("#reverse_jetpacks").text("Your jetpacks are reversed!");
-	          $(".button-caution").css("background", "yellow");
-	          $(".button-caution").css("border-color", "#A69212");
-	          $("#direction_label").text("REVERSE");
+	    // if (frame.gestures.length > 0){
+	    //   for (var i = 0; i < frame.gestures.length; i++){
+	    //     var gesture = frame.gestures[i];
+	    //     console.log("something is happening?");
+
+	    //     if (gesture.type === "circle" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+	    //       reverseJets = "YES";
+	    //       canSwitchJets = "NO";
+	    //       $("#jet_direction").text("Direction: Away From Earth");
+	    //       $("#reverse_jetpacks").text("Your jetpacks are reversed!");
+	    //       $(".button-caution").css("background", "yellow");
+	    //       $(".button-caution").css("border-color", "#A69212");
+	    //       $("#direction_label").text("REVERSE");
 	          
-	          setTimeout(function(){
-	            canSwitchJets = "YES";
-	          },3000);
-	        }
-	        else if (gesture.type === "circle" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
-	          reverseJets = "NO";
-	          canSwitchJets = "NO";
-	          $("#jet_direction").text("Direction: Towards Earth");
-	          $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
-	          $(".button-caution").css("background", "green");
-	          $(".button-caution").css("border-color", "#1B5207");
-	          $("#direction_label").text("FORWARD");
+	    //       setTimeout(function(){
+	    //         canSwitchJets = "YES";
+	    //       },3000);
+	    //     }
+	    //     else if (gesture.type === "circle" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+	    //       reverseJets = "NO";
+	    //       canSwitchJets = "NO";
+	    //       $("#jet_direction").text("Direction: Towards Earth");
+	    //       $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
+	    //       $(".button-caution").css("background", "green");
+	    //       $(".button-caution").css("border-color", "#1B5207");
+	    //       $("#direction_label").text("FORWARD");
 
-	          setTimeout(function(){
-	            canSwitchJets = "YES";
-	          },3000);
-	        }
-	        if (gesture.type === "circle" && initialJetPacks === "NO"){
-	          jetPacksActivated = "YES";
-	          $("#jets").text("Jet Packs: ACTIVATED!");
-	          $("#direction_label").text("FORWARD");
-	          $(".button-caution").css("background", "green");
-	          $(".button-caution").css("border-color", "#1B5207");
+	    //       setTimeout(function(){
+	    //         canSwitchJets = "YES";
+	    //       },3000);
+	    //     }
+	    //     if (gesture.type === "circle" && initialJetPacks === "NO"){
+	    //       jetPacksActivated = "YES";
+	    //       $("#jets").text("Jet Packs: ACTIVATED!");
+	    //       $("#direction_label").text("FORWARD");
+	    //       $(".button-caution").css("background", "green");
+	    //       $(".button-caution").css("border-color", "#1B5207");
 
-	          console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
-	          setTimeout(function(){
-	            initialJetPacks = "YES";
-	          },3000);
-	        }
-	      }
-	    }
+	    //       console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
+	    //       setTimeout(function(){
+	    //         initialJetPacks = "YES";
+	    //       },3000);
+	    //     }
+	    //   }
+	    // }
 
 	    //checking to see if any hand gestures were activated
 	    var handsActivated = 0;
 	    handsActivated = frame.hands.length;
 	    if (frame.hands.length > 0 && jetPacksActivated === "YES"){
-	      if (reverseJets === "NO"){
+	      if (reverseJets === "NO" && isParked === "NO"){
 	        camera.position.z --
 	        camera.position.y --
 	      }
-	      else{
+	      else if (reverseJets === "YES" && isParked === "NO"){
 	        camera.position.z ++
 	        camera.position.y ++
 	      }
 	      
 	      for (var i = 0; i< frame.hands.length; i++){
 	        var hand = frame.hands[i];
-	        if (hand.palmNormal[0] >= -0.5 && hand.palmNormal[0] <= 0.50){
+	        if (hand.palmNormal[0] >= -0.5 && hand.palmNormal[0] <= 0.50 && isParked === "NO"){
 	          console.log("go straight");
 	          $("#direction_label2").text("");
 	        }
-	        else if (hand.palmNormal[0] < -0.5 && hand.palmNormal[0] >= -0.7){
+	        else if (hand.palmNormal[0] < -0.5 && hand.palmNormal[0] >= -0.7 && isParked === "NO"){
 	          console.log("go right and up");
 	          cloudPositionX--;
 	          cloudPositionY--;
@@ -214,7 +277,7 @@ $(document).ready(function(){
 	          earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
 	          particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
 	        }
-	        else if (hand.palmNormal[0] < -0.7){
+	        else if (hand.palmNormal[0] < -0.7 && isParked === "NO"){
 	          console.log("go right");
 	          cloudPositionX--;
 	          cloudPositionY--;
@@ -229,7 +292,7 @@ $(document).ready(function(){
 	          earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
 	          particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
 	        }
-	        else if (hand.palmNormal[0] >= 0.5 && hand.palmNormal[0] <= 0.7){
+	        else if (hand.palmNormal[0] >= 0.5 && hand.palmNormal[0] <= 0.7 && isParked === "NO"){
 	          console.log("go left and up");
 	          cloudPositionX++;
 	          cloudPositionY++;
@@ -247,7 +310,7 @@ $(document).ready(function(){
 	          earth.position.set(earthPositionX, earthPositionY, earthPositionZ);
 	          particleSystem.position.set(starsPositionX, starsPositionY, starsPositionZ);
 	        }
-	        else if (hand.palmNormal[0] > 0.7){
+	        else if (hand.palmNormal[0] > 0.7 && isParked === "NO"){
 	          console.log("go left");
 	          cloudPositionX++;
 	          cloudPositionY++;
@@ -285,7 +348,7 @@ $(document).ready(function(){
 	    //adjust 3D spherical coordinates of the camera
 	    // camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
 	    // camera.position.z = earth.position.y + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.sin(rotateX * Math.PI/180)
-	    if (jetPacksActivated === "NO"){
+	    if (jetPacksActivated === "NO" && isParked === "NO"){
 	      camera.position.z ++
 	      camera.position.y ++
 	    }
@@ -312,4 +375,83 @@ $(document).ready(function(){
 
 	    renderer.setSize( window.innerWidth, window.innerHeight );
 	}
+
+
+	//kiwi stuff
+
+
+	// Enter your device id and password here
+
+	kiwisocket.on('connect', function() {
+		kiwisocket.emit('listen', {device_id: '30', password: '123'});
+	});
+
+	kiwisocket.on('listen_response', function(data) {
+
+		//console.log(data);
+
+		toParse = JSON.parse(data.message);
+
+		Ax = parseFloat(toParse.ax);
+		Ay = parseFloat(toParse.ay);
+		Az = parseFloat(toParse.az);
+
+		Gx = parseFloat(toParse.gx);
+		Gy = parseFloat(toParse.gy);
+		Gz = parseFloat(toParse.gz);
+
+		if (Gz > 400) {
+			$("#direction_label").text("PARKED");
+			isParked = "YES";
+		    $('#button1').css("background-color", "#87FC91"); //parking
+		}
+		if (Gy > 400 && initialJetPacks === "NO") {
+			
+		  	jetPacksActivated = "YES";
+		  	isParked = "NO";
+
+		  	$("#jets").text("Jet Packs: ACTIVATED!");
+		  	$("#direction_label").text("FORWARD");
+		  	$(".button-caution").css("background", "green");
+		  	$(".button-caution").css("border-color", "#1B5207");
+
+		  	console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
+		  	setTimeout(function(){
+		  	  initialJetPacks = "YES";
+		  	},3000);
+		}
+		if (Gy > 400 && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+			reverseJets = "NO";
+			canSwitchJets = "NO";
+			isParked = "NO";
+
+			$("#jet_direction").text("Direction: Towards Earth");
+			$("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
+			$(".button-caution").css("background", "green");
+			$(".button-caution").css("border-color", "#1B5207");
+			$("#direction_label").text("FORWARD");
+
+			setTimeout(function(){
+			  canSwitchJets = "YES";
+			},3000);
+		}
+		if (Gy < -400 && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES") {
+			reverseJets = "YES";
+			canSwitchJets = "NO";
+			isParked = "NO";
+
+			$("#jet_direction").text("Direction: Away From Earth");
+			$("#reverse_jetpacks").text("Your jetpacks are reversed!");
+			$(".button-caution").css("background", "yellow");
+			$(".button-caution").css("border-color", "#A69212");
+			$("#direction_label").text("REVERSE");
+			
+			setTimeout(function(){
+			  canSwitchJets = "YES";
+			},3000);
+		}
+
+	});
+
+
 });
