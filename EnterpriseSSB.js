@@ -270,7 +270,7 @@ $(document).ready(function(){
 	      camera.position.z ++
 	      camera.position.y ++
 	    }
-	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.2, 2));
+	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.5, 2));
 	    // camera.position.y = earth.position.z + cameraRadius * Math.cos(rotateY * Math.PI/180)
 	    // camera.fov = fov * zoomFactor;
 	  }
@@ -282,7 +282,7 @@ $(document).ready(function(){
 
 	//function for rounding
 	function trueRound(value, digits){
-    	return (Math.round((value*Math.pow(10,digits)).toFixed(digits-1))/Math.pow(10,digits)).toFixed(digits);
+    	return Math.abs((Math.round((value*Math.pow(10,digits)).toFixed(digits-1))/Math.pow(10,digits)).toFixed(digits));
 	}
 
 	//window resize method
