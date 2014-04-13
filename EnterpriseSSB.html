@@ -159,6 +159,7 @@
 
       var jetPacksActivated = "NO";
       var reverseJets = "NO";
+      var initialJetPacks = "NO";
 
       //request animation frame and connect to leap socket
       Leap.loop(function(frame) {
@@ -170,20 +171,23 @@
           if (frame.gestures.length > 0){
             for (var i = 0; i < frame.gestures.length; i++){
               var gesture = frame.gestures[i];
-              if (gesture.type === "swipe" && reverseJets === "NO" && jetPacksActivated === "YES"){
+              if (gesture.type === "swipe" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES"){
                 reverseJets = "YES";
                 $("#jet_direction").text("Direction: Away From Earth");
                 $("#reverse_jetpacks").text("Your jetpacks are reversed!");
               }
-              else if (gesture.type === "swipe" && reverseJets === "YES" && jetPacksActivated === "YES"){
+              else if (gesture.type === "swipe" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES"){
                 reverseJets = "NO";
                 $("#jet_direction").text("Direction: Towards Earth");
                 $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
               }
-              if (gesture.type === "swipe"){
+              if (gesture.type === "swipe" && initialJetPacks === "NO"){
                 jetPacksActivated = "YES";
                 $("#jets").text("Jet Packs: ACTIVATED!");
                 console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
+                setTimeout(function(){
+                  initialJetPacks = "YES";
+                },3000);
               }
             }
           }
@@ -270,8 +274,6 @@
               }
             }
           }
-
-          
 
           //rotate cloud and earth independently
           clouds.rotation.y+=.002
