@@ -1,14 +1,29 @@
 #hub{
-	margin-left:10px;
+	margin: 10px 0 0 10px;
+	position: absolute;
+	background: rgba(181,181,181, 0.3);
+	width:500px;
+	height:100px;
+	border: solid 2px black;
+	color: #CFCFCF;
 }
-#hub div{
-	float:left;
+#jets{
+	margin-top:5px;
 }
 
-.button-circle{
-	float:right;
-	margin:100px;
+#hub div{
+	margin-left:10px;
+	/*font-weight: bold;*/
+	font-size: 20px;
+
 }
+
+#jet_button{
+	margin:10px 0 0 1150px;
+	position:absolute;
+}
+
+
 
 .button {
   -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.5), 0px 1px 2px rgba(0, 0, 0, 0.15);
