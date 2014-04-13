@@ -228,7 +228,8 @@ button.button:disabled {
   background: linear-gradient(top, #e8543f, #d9331a);
   background-color: #e54028;
   border-color: #c22d18;
-  color: white;
+  font-weight: bold;
+  color: #3B3B3B;
   text-shadow: 0 -1px 1px rgba(103, 24, 13, 0.35);
 }
 
