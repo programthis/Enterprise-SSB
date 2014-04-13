@@ -124,6 +124,7 @@ $(document).ready(function(){
 	var jetPacksActivated = "NO";
 	var reverseJets = "NO";
 	var initialJetPacks = "NO";
+	var canSwitchJets = "YES";
 
 	//request animation frame and connect to leap socket
 	Leap.loop(function(frame) {
@@ -135,21 +136,31 @@ $(document).ready(function(){
 	    if (frame.gestures.length > 0){
 	      for (var i = 0; i < frame.gestures.length; i++){
 	        var gesture = frame.gestures[i];
-	        if (gesture.type === "swipe" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES"){
+	        if (gesture.type === "circle" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
 	          reverseJets = "YES";
+	          canSwitchJets = "NO";
 	          $("#jet_direction").text("Direction: Away From Earth");
 	          $("#reverse_jetpacks").text("Your jetpacks are reversed!");
 	          $(".button-caution").css("background", "yellow");
 	          $(".button-caution").css("border-color", "#A69212");
+
+	          setTimeout(function(){
+	            canSwitchJets = "YES";
+	          },3000);
 	        }
-	        else if (gesture.type === "swipe" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES"){
+	        else if (gesture.type === "circle" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
 	          reverseJets = "NO";
+	          canSwitchJets = "NO";
 	          $("#jet_direction").text("Direction: Towards Earth");
 	          $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
 	          $(".button-caution").css("background", "green");
 	          $(".button-caution").css("border-color", "#1B5207");
+
+	          setTimeout(function(){
+	            canSwitchJets = "YES";
+	          },3000);
 	        }
-	        if (gesture.type === "swipe" && initialJetPacks === "NO"){
+	        if (gesture.type === "circle" && initialJetPacks === "NO"){
 	          jetPacksActivated = "YES";
 	          $("#jets").text("Jet Packs: ACTIVATED!");
 	          $(".button-caution").css("background", "green");
@@ -282,7 +293,7 @@ $(document).ready(function(){
 
 	//function for rounding
 	function trueRound(value, digits){
-    	return Math.abs((Math.round((value*Math.pow(10,digits)).toFixed(digits-1))/Math.pow(10,digits)).toFixed(digits));
+    	return (Math.round((value*Math.pow(10,digits)).toFixed(digits-1))/Math.pow(10,digits)).toFixed(digits);
 	}
 
 	//window resize method
