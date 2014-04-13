@@ -23,6 +23,18 @@
 	position:absolute;
 }
 
+#direction_label{
+  font-size:60px;
+  position: absolute;
+  color: white;
+  margin:20px 0 20px 840px;
+}
+#direction_label2{
+  font-size:30px;
+  position: absolute;
+  color: white;
+  margin:80px 0 20px 840px;
+}
 
 
 .button {

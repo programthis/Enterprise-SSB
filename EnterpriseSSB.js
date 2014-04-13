@@ -143,7 +143,8 @@ $(document).ready(function(){
 	          $("#reverse_jetpacks").text("Your jetpacks are reversed!");
 	          $(".button-caution").css("background", "yellow");
 	          $(".button-caution").css("border-color", "#A69212");
-
+	          $("#direction_label").text("REVERSE");
+	          
 	          setTimeout(function(){
 	            canSwitchJets = "YES";
 	          },3000);
@@ -155,6 +156,7 @@ $(document).ready(function(){
 	          $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
 	          $(".button-caution").css("background", "green");
 	          $(".button-caution").css("border-color", "#1B5207");
+	          $("#direction_label").text("FORWARD");
 
 	          setTimeout(function(){
 	            canSwitchJets = "YES";
@@ -163,6 +165,7 @@ $(document).ready(function(){
 	        if (gesture.type === "circle" && initialJetPacks === "NO"){
 	          jetPacksActivated = "YES";
 	          $("#jets").text("Jet Packs: ACTIVATED!");
+	          $("#direction_label").text("FORWARD");
 	          $(".button-caution").css("background", "green");
 	          $(".button-caution").css("border-color", "#1B5207");
 
@@ -191,6 +194,7 @@ $(document).ready(function(){
 	        var hand = frame.hands[i];
 	        if (hand.palmNormal[0] >= -0.5 && hand.palmNormal[0] <= 0.50){
 	          console.log("go straight");
+	          $("#direction_label2").text("");
 	        }
 	        else if (hand.palmNormal[0] < -0.5 && hand.palmNormal[0] >= -0.7){
 	          console.log("go right and up");
@@ -203,6 +207,7 @@ $(document).ready(function(){
 	          cloudPositionZ--;
 	          earthPositionZ--;
 	          starsPositionZ--;
+	          $("#direction_label2").text("RIGHT");
 
 	          $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling right and up!");
 	          clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
@@ -217,6 +222,7 @@ $(document).ready(function(){
 	          earthPositionY--;
 	          starsPositionX--;
 	          starsPositionY--;
+	          $("#direction_label2").text("RIGHT");
 
 	          $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling right!");
 	          clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ);
@@ -234,6 +240,7 @@ $(document).ready(function(){
 	          cloudPositionZ++;
 	          earthPositionZ++;
 	          starsPositionZ++;
+	          $("#direction_label2").text("LEFT");
 
 	          $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling left and up!");
 	          clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
@@ -248,6 +255,7 @@ $(document).ready(function(){
 	          earthPositionY++;
 	          starsPositionX++;
 	          starsPositionY++;
+	          $("#direction_label2").text("LEFT");
 
 	          $("#palm_direction").text("Palm Direction: " + hand.palmNormal[0] + ". Travelling left!");
 	          clouds.position.set( cloudPositionX, cloudPositionY, cloudPositionZ );
