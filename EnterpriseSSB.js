@@ -183,6 +183,8 @@ $(document).ready(function(){
 			setTimeout(function(){
 			  initialJetPacks = "YES";
 			},3000);
+			$("#direction_label").removeClass("blink");
+			$("#endgame img").attr("src", "");
 		}
 	});
 
@@ -401,6 +403,7 @@ $(document).ready(function(){
 		  	setTimeout(function(){
 		  	  initialJetPacks = "YES";
 		  	},3000);
+		  	$("#direction_label").removeClass("blink");
 		}
 		if ((Gy > 400) || (Gy < -400) && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
 			reverseJets = "NO";

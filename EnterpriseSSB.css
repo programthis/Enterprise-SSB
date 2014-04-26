@@ -289,7 +289,7 @@ button.button:disabled {
   width:200px;
   height:128px;
   overflow:hidden;
-  border: 2px solid black;
+  /*border: 2px solid black;*/
   position:absolute;
   opacity:0.7;
   margin: 10px 0 0 520px;
@@ -314,4 +314,26 @@ button.button:disabled {
 
 #bg_music{
   display:none;
+}
+
+@-webkit-keyframes blinker {
+  from {opacity: 1.0;}
+
+  to {opacity: 0.0;}
+
+}
+.blink{
+
+  text-decoration: blink;
+
+  -webkit-animation-name: blinker;
+
+  -webkit-animation-duration: 0.6s;
+
+  -webkit-animation-iteration-count:infinite;
+
+  -webkit-animation-timing-function:ease-in-out;
+
+  -webkit-animation-direction: alternate;
+
 }
