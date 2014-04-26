@@ -11,6 +11,7 @@ $(document).ready(function(){
 	var Gx = 0;
 	var Gy = 0;
 	var Gz = 0;
+	var videoTriggered = 0;
 
 
 	//map function to be used to map values from leap into proper degrees (0-360)
@@ -326,8 +327,10 @@ $(document).ready(function(){
 	    	$("#endgame img").attr("src", "images/tumble.gif");
 	    }
 
-	    if ((camera.position.z * 3.5) < 500){
-	    	$("#avatar img").attr("src", "images/ending.jpg");
+	    if ((camera.position.z * 3.5) < 250 && videoTriggered === 0){
+	    	$("#homevideo").html('<iframe width="1280px" height="720px" src="https://www.youtube.com/embed/t9229OQ7dYc?start=30&autoplay=1&controls=0&showinfo=0&cc_load_policy=0" frameborder="0"></iframe>');
+	    	$("#bg_music iframe").attr("src","");
+	    	videoTriggered = 1;
 	    }
 
 
