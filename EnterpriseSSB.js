@@ -191,55 +191,6 @@ $(document).ready(function(){
 	Leap.loop(function(frame) {
 	  if (frame.valid) {
 
-	    //getting the jets to activate when the user does a specific gesture
-	    // var gestureOutput = document.getElementById("gestureData");
-
-	    // if (frame.gestures.length > 0){
-	    //   for (var i = 0; i < frame.gestures.length; i++){
-	    //     var gesture = frame.gestures[i];
-	    //     console.log("something is happening?");
-
-	    //     if (gesture.type === "circle" && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
-	    //       reverseJets = "YES";
-	    //       canSwitchJets = "NO";
-	    //       $("#jet_direction").text("Direction: Away From Earth");
-	    //       $("#reverse_jetpacks").text("Your jetpacks are reversed!");
-	    //       $(".button-caution").css("background", "yellow");
-	    //       $(".button-caution").css("border-color", "#A69212");
-	    //       $("#direction_label").text("REVERSE");
-	          
-	    //       setTimeout(function(){
-	    //         canSwitchJets = "YES";
-	    //       },3000);
-	    //     }
-	    //     else if (gesture.type === "circle" && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
-	    //       reverseJets = "NO";
-	    //       canSwitchJets = "NO";
-	    //       $("#jet_direction").text("Direction: Towards Earth");
-	    //       $("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
-	    //       $(".button-caution").css("background", "green");
-	    //       $(".button-caution").css("border-color", "#1B5207");
-	    //       $("#direction_label").text("FORWARD");
-
-	    //       setTimeout(function(){
-	    //         canSwitchJets = "YES";
-	    //       },3000);
-	    //     }
-	    //     if (gesture.type === "circle" && initialJetPacks === "NO"){
-	    //       jetPacksActivated = "YES";
-	    //       $("#jets").text("Jet Packs: ACTIVATED!");
-	    //       $("#direction_label").text("FORWARD");
-	    //       $(".button-caution").css("background", "green");
-	    //       $(".button-caution").css("border-color", "#1B5207");
-
-	    //       console.log("WE'RE COMING TO SAVE YOU SANDRA!!");
-	    //       setTimeout(function(){
-	    //         initialJetPacks = "YES";
-	    //       },3000);
-	    //     }
-	    //   }
-	    // }
-
 	    //checking to see if any hand gestures were activated
 	    var handsActivated = 0;
 	    handsActivated = frame.hands.length;
@@ -348,13 +299,15 @@ $(document).ready(function(){
 	    //adjust 3D spherical coordinates of the camera
 	    // camera.position.x = earth.position.x + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.cos(rotateX * Math.PI/180)
 	    // camera.position.z = earth.position.y + cameraRadius * Math.sin(rotateY * Math.PI/180) * Math.sin(rotateX * Math.PI/180)
-	    if (jetPacksActivated === "NO" && isParked === "NO"){
-	      camera.position.z ++
-	      camera.position.y ++
-	    }
-	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.5, 2));
 	    // camera.position.y = earth.position.z + cameraRadius * Math.cos(rotateY * Math.PI/180)
 	    // camera.fov = fov * zoomFactor;
+
+	    if (jetPacksActivated === "NO" && isParked === "NO"){
+	      camera.position.z ++
+	      camera.position.y ++ 
+	    }
+	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.5, 2));
+	    
 	  }
 
 	  camera.updateProjectionMatrix();
@@ -400,7 +353,7 @@ $(document).ready(function(){
 		Gy = parseFloat(toParse.gy);
 		Gz = parseFloat(toParse.gz);
 
-		if (Gz > 400) {
+		if (Gx > 400 && initialJetPacks === "YES") {
 			$("#direction_label").text("PARKED");
 			isParked = "YES";
 		    $('#button1').css("background-color", "#87FC91"); //parking
@@ -435,7 +388,7 @@ $(document).ready(function(){
 			  canSwitchJets = "YES";
 			},3000);
 		}
-		if (Gy < -400 && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES") {
+		if (Gz < -400 && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES") {
 			reverseJets = "YES";
 			canSwitchJets = "NO";
 			isParked = "NO";
@@ -450,6 +403,7 @@ $(document).ready(function(){
 			  canSwitchJets = "YES";
 			},3000);
 		}
+
 
 	});
 
