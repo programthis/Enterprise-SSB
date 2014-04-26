@@ -149,7 +149,6 @@ $(document).ready(function(){
 			canSwitchJets = "NO";
 
 			$("#jet_direction").text("Direction: Away From Earth");
-			$("#reverse_jetpacks").text("Your jetpacks are reversed!");
 			$(".button-caution").css("background", "yellow");
 			$(".button-caution").css("border-color", "#A69212");
 			$("#direction_label").text("REVERSE");
@@ -163,7 +162,6 @@ $(document).ready(function(){
 			canSwitchJets = "NO";
 
 			$("#jet_direction").text("Direction: Towards Earth");
-			$("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
 			$(".button-caution").css("background", "green");
 			$(".button-caution").css("border-color", "#1B5207");
 			$("#direction_label").text("FORWARD");
@@ -327,7 +325,7 @@ $(document).ready(function(){
 	    	$("#endgame img").attr("src", "images/tumble.gif");
 	    }
 
-	    if ((camera.position.z * 3.5) < 250 && videoTriggered === 0){
+	    if ((camera.position.z * 3.5) < 500 && videoTriggered === 0){
 	    	$("#homevideo").html('<iframe width="1280px" height="720px" src="https://www.youtube.com/embed/t9229OQ7dYc?start=30&autoplay=1&controls=0&showinfo=0&cc_load_policy=0" frameborder="0"></iframe>');
 	    	$("#bg_music iframe").attr("src","");
 	    	videoTriggered = 1;
@@ -410,7 +408,6 @@ $(document).ready(function(){
 			isParked = "NO";
 
 			$("#jet_direction").text("Direction: Towards Earth");
-			$("#reverse_jetpacks").text("Your jetpacks are propelling you forward!");
 			$(".button-caution").css("background", "green");
 			$(".button-caution").css("border-color", "#1B5207");
 			$("#direction_label").text("FORWARD");
@@ -425,7 +422,6 @@ $(document).ready(function(){
 			isParked = "NO";
 
 			$("#jet_direction").text("Direction: Away From Earth");
-			$("#reverse_jetpacks").text("Your jetpacks are reversed!");
 			$(".button-caution").css("background", "yellow");
 			$(".button-caution").css("border-color", "#A69212");
 			$("#direction_label").text("REVERSE");
