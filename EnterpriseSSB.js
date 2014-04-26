@@ -152,7 +152,7 @@ $(document).ready(function(){
 			$(".button-caution").css("background", "yellow");
 			$(".button-caution").css("border-color", "#A69212");
 			$("#direction_label").text("REVERSE");
-			
+
 			setTimeout(function(){
 			  canSwitchJets = "YES";
 			},3000);
@@ -203,7 +203,7 @@ $(document).ready(function(){
 	        camera.position.z ++
 	        camera.position.y ++
 	      }
-	      
+
 	      for (var i = 0; i< frame.hands.length; i++){
 	        var hand = frame.hands[i];
 	        if (hand.palmNormal[0] >= -0.5 && hand.palmNormal[0] <= 0.50 && isParked === "NO"){
@@ -304,10 +304,10 @@ $(document).ready(function(){
 
 	    if (jetPacksActivated === "NO" && isParked === "NO"){
 	      camera.position.z ++
-	      camera.position.y ++ 
+	      camera.position.y ++
 	    }
 	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.5, 2));
-	    
+
 	  }
 
 	  camera.updateProjectionMatrix();
@@ -353,13 +353,13 @@ $(document).ready(function(){
 		Gy = parseFloat(toParse.gy);
 		Gz = parseFloat(toParse.gz);
 
-		if (Gx > 400 && initialJetPacks === "YES") {
+		if ((Gx > 400) || (Gx < -400) && initialJetPacks === "YES") {
 			$("#direction_label").text("PARKED");
 			isParked = "YES";
 		    $('#button1').css("background-color", "#87FC91"); //parking
 		}
-		if (Gy > 400 && initialJetPacks === "NO") {
-			
+		if ((Gy > 400) || (Gy < -400) && initialJetPacks === "NO") {
+
 		  	jetPacksActivated = "YES";
 		  	isParked = "NO";
 
@@ -373,7 +373,7 @@ $(document).ready(function(){
 		  	  initialJetPacks = "YES";
 		  	},3000);
 		}
-		if (Gy > 400 && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
+		if ((Gy > 400) || (Gy < -400) && reverseJets === "YES" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES"){
 			reverseJets = "NO";
 			canSwitchJets = "NO";
 			isParked = "NO";
@@ -388,7 +388,7 @@ $(document).ready(function(){
 			  canSwitchJets = "YES";
 			},3000);
 		}
-		if (Gz < -400 && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES") {
+		if ((Gz > 400) || (Gz < -400) && reverseJets === "NO" && jetPacksActivated === "YES" && initialJetPacks === "YES" && canSwitchJets === "YES") {
 			reverseJets = "YES";
 			canSwitchJets = "NO";
 			isParked = "NO";
@@ -398,12 +398,11 @@ $(document).ready(function(){
 			$(".button-caution").css("background", "yellow");
 			$(".button-caution").css("border-color", "#A69212");
 			$("#direction_label").text("REVERSE");
-			
+
 			setTimeout(function(){
 			  canSwitchJets = "YES";
 			},3000);
 		}
-
 
 	});
 
