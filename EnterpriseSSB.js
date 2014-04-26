@@ -307,7 +307,30 @@ $(document).ready(function(){
 	      camera.position.y ++ 
 	    }
 	    $("#distance").text("Distance From Earth (km): " + trueRound(camera.position.z * 3.5, 2));
-	    
+	    if ((camera.position.z * 3.5) > 500 && (camera.position.z * 3.5) < 1500){
+	    	$("#avatar img").attr("src", "images/break-away.jpg");
+	    }
+	    else if ((camera.position.z * 3.5) > 1500 && (camera.position.z * 3.5) < 3000){
+	    	$("#avatar img").attr("src", "images/sandra.jpg");
+	    }
+	    else if ((camera.position.z * 3.5) > 3000 && (camera.position.z * 3.5) < 5000){
+	    	$("#avatar img").attr("src", "images/sandra-hair.jpg");
+	    }
+	    else if ((camera.position.z * 3.5) > 5000 && (camera.position.z * 3.5) < 6000){
+	    	$("#avatar img").attr("src", "images/george.jpg");
+	    }
+	    else if ((camera.position.z * 3.5) > 6000 && (camera.position.z * 3.5) < 9000){
+	    	$("#avatar img").attr("src", "images/fetal position.jpg");
+	    }
+	    else if ((camera.position.z * 3.5) > 9000){
+	    	$("#endgame img").attr("src", "images/tumble.gif");
+	    }
+
+	    if ((camera.position.z * 3.5) < 500){
+	    	$("#avatar img").attr("src", "images/ending.jpg");
+	    }
+
+
 	  }
 
 	  camera.updateProjectionMatrix();
@@ -353,10 +376,14 @@ $(document).ready(function(){
 		Gy = parseFloat(toParse.gy);
 		Gz = parseFloat(toParse.gz);
 
+		if (Gx > 400 || Gy > 400 || Gz > 400 || Gx < -400 || Gy < -400 || Gz < -400){
+			$("#endgame img").attr("src", "");
+		}
+
 		if (Gx > 400 && initialJetPacks === "YES") {
 			$("#direction_label").text("PARKED");
 			isParked = "YES";
-		    $('#button1').css("background-color", "#87FC91"); //parking
+		    $('#button1').css("background-color", "#87FC91"); //parking  
 		}
 		if (Gy > 400 && initialJetPacks === "NO") {
 			

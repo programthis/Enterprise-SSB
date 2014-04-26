@@ -301,3 +301,14 @@ button.button:disabled {
   height:128px;
   width:auto;
 }
+
+#endgame{
+  height:100%;
+  width:100%;
+  position: absolute;
+}
+
+#endgame img{
+  height:100%;
+  width:100%;
+}
