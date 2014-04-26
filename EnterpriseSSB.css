@@ -285,3 +285,19 @@ button.button:disabled {
   background: #764479;
   color: #3e1740;
 }
+
+#avatar{
+  width:200px;
+  height:128px;
+  overflow:hidden;
+  border: 2px solid black;
+  position:absolute;
+  opacity:0.7;
+  margin: 10px 0 0 520px;
+
+}
+
+#avatar img{
+  height:128px;
+  width:auto;
+}
